@@ -1,6 +1,8 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        test1();
+        test2();
     }
 
     public static void test1 ()
@@ -24,14 +26,59 @@ public class Main {
         }
     }
 
-    //TODO:
+
     //1 сделать функцию, которая спрашивает у пользователя координаты и длину языка и выдает в
     //  качестве результата новую Лягушку
+    public static Frog inputFrog(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("введите координаты и радиус действия Лягушки");
+        int x = scanner.nextInt();
+        int y = scanner.nextInt();
+        int r = scanner.nextInt();
+        return new Frog(x, y, r);
+    }
+
     //2 сделать функцию, которая спрашивает у пользователя длину маршрута, затем запраивает
     //  много точек в виде пар координат
     //  результат этой функции - массив Точек
+    public static Point[] inputRoute(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("введите длину маршрута Кузнечика");
+        int n = scanner.nextInt();
+        Point[] route = new Point[n];
+        System.out.println("введите пары координат точек маршрута");
+        for (int i = 0; i < n; i++) {
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            route[i] = new Point(x, y);
+        }
+        return route;
+    }
+
     //3 сделать функцию, которая проверяет проверяет работу вышеописанных функций
     //  и запускает проверку выживания кузнечика
+    public static void test2(){
+        Frog frog = inputFrog();
+        Point[] route = inputRoute();
+        int number = analyze(frog, route);
+        if(number<0)
+            System.out.println("Кузнечик жив!");
+        else
+            System.out.println("кузнечек съеден в "+number +" точке");
+    }
+
+    public static int analyze(Frog frog, Point[] route ){
+        for (int i = 0; i < route.length; i++) {
+            double d = Point.calcDistance(frog.place, route[i]);
+            if( d<= frog.tongueLength)
+            {
+                //System.out.println("кузнечек съеден в "+(i+1) +" точке");
+                //break;
+                return i+1;
+            }
+        }
+        return -999;
+    }
 }
 
 class Point{
