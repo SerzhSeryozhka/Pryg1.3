@@ -69,11 +69,7 @@ public class Main {
 
     public static int analyze(Frog frog, Point[] route ){
         for (int i = 0; i < route.length; i++) {
-            double d = Point.calcDistance(frog.place, route[i]);
-            if( d<= frog.tongueLength)
-            {
-                //System.out.println("кузнечек съеден в "+(i+1) +" точке");
-                //break;
+            if( frog.checkRange(route[i]))  {
                 return i+1;
             }
         }
@@ -109,5 +105,11 @@ class Frog{
         place = new Point(x, y);
         tongueLength = len;
         System.out.println("вызван конструктор Frog с 3 параметрами");
+    }
+
+    public boolean checkRange(Point p){
+        double d = Point.calcDistance(this.place, p);
+        boolean inRange = (d<= tongueLength);
+        return inRange;
     }
 }
